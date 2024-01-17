@@ -33,7 +33,7 @@ jobs:
 
       - name: Build wheel
         run: |
-          python -m build -w -C="--global-option=--plat-name" -C="--global-option=$(python -c  'import sysconfig; print(sysconfig.get_platform())')"
+          python -m build -w -C="--build-option=--plat-name" -C="--build-option=$(python -c  'import sysconfig; print(sysconfig.get_platform())')"
 
       - name: Patch wheel
         if: runner.os == 'Linux'
