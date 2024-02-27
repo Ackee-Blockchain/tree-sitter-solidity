@@ -9,50 +9,30 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-13, macos-12, macos-11]
+        os: [ubuntu-latest, windows-latest, macos-latest]
     steps:
       - name: Checkout latest release
         uses: actions/checkout@v3
         with:
           ref: ${{ github.ref }}
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Set up QEMU
+        if: runner.os == 'Linux'
+        uses: docker/setup-qemu-action@v3
         with:
-          python-version: "3.10"
+          platforms: all
 
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install abch-tree-sitter build auditwheel
+      - name: Build wheels
+        uses: pypa/cibuildwheel@v2.16.5
+        env:
+          CIBW_SKIP: pp*
+          CIBW_ARCHS_MACOS: x86_64 arm64
+          CIBW_ARCHS_LINUX: auto aarch64
 
-      - name: Install patchelf
-        if: runner.os == 'Linux'
-        run: |
-          sudo apt-get install patchelf
-
-      - name: Build wheel
-        run: |
-          python -m build -w -C="--build-option=--plat-name" -C="--build-option=$(python -c  'import sysconfig; print(sysconfig.get_platform())')"
-
-      - name: Patch wheel
-        if: runner.os == 'Linux'
-        run: |
-          auditwheel repair dist/*.whl
-
-      - name: Upload wheel on Linux
-        if: runner.os == 'Linux'
+      - name: Upload wheels
         uses: actions/upload-artifact@v3
         with:
-          name: artifact
-          path: wheelhouse/*.whl
-
-      - name: Upload wheel on Windows and macOS
-        if: runner.os != 'Linux'
-        uses: actions/upload-artifact@v3
-        with:
-          name: artifact
-          path: dist/*.whl
+          path: ./wheelhouse/*.whl
 
   make_sdist:
     name: Make SDist
