@@ -22,7 +22,7 @@ with Path(__file__).parent.joinpath("README.md").open() as f:
 
 setup(
     name="abch_tree_sitter_solidity",
-    version="1.2.2",
+    version="1.2.3",
     author="Ackee Blockchain",
     url="https://github.com/Ackee-Blockchain/tree-sitter-solidity",
     license="MIT",
