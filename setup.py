@@ -1,28 +1,24 @@
-import sys
 from pathlib import Path
-from setuptools import setup
-from setuptools.command.build_py import build_py
+from platform import system
+from setuptools import Extension, setup
+from setuptools.command.build_ext import build_ext
 
 
-class BuildPy(build_py):
+class CustomBuildExt(build_ext):
     def run(self):
-        from tree_sitter import Language
-
-        if sys.platform == "win32":
-            output_path = Path(__file__).parent / "tree_sitter_solidity" / "solidity.dll"
-        else:
-            output_path = Path(__file__).parent / "tree_sitter_solidity" / "solidity.so"
-
-        Language.build_library(
-            str(output_path),
-            [Path(__file__).parent],
-        )
-
         super().run()
+
+        for output_file in self.get_outputs():
+            path = Path(output_file)
+            if path.suffix == ".pyd":
+                path.rename(path.with_name("solidity.dll"))
+            elif path.suffix == ".so":
+                path.rename(path.with_name("solidity.so"))
 
 
 with Path(__file__).parent.joinpath("README.md").open() as f:
     LONG_DESCRIPTION = f.read()
+
 
 setup(
     name="abch_tree_sitter_solidity",
@@ -40,6 +36,16 @@ setup(
     packages=["tree_sitter_solidity"],
     package_data={"tree_sitter_solidity": ["solidity.so", "solidity.dll"]},
     project_urls={"Source": "https://github.com/Ackee-Blockchain/tree-sitter-solidity"},
-    cmdclass={"build_py": BuildPy},
     data_files=[("src", ["src/parser.c", "src/tree_sitter/parser.h"])],
+    ext_modules=[
+        Extension(
+            name="tree_sitter_solidity.solidity",
+            sources=["src/parser.c", "src/entry_point.c"],
+            include_dirs=["src"],
+            extra_compile_args=(
+                ["-fPIC", "-std=c99"] if system() != "Windows" else None
+            ),
+        )
+    ],
+    cmdclass={"build_ext": CustomBuildExt},
 )
