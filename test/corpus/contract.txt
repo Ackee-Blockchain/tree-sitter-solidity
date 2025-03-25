@@ -76,3 +76,66 @@ contract Example is NotAContract(), AContract(1) {}
       ancestor_arguments: (call_argument
         (number_literal)))
     body: (contract_body)))
+
+================================================================================
+Contract storage at with inheritance after
+================================================================================
+
+contract Example is Base layout at 2**256 - 1 {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    (inheritance_specifier
+      ancestor: (user_defined_type
+        (identifier)))
+    (layout_specifier
+      address: (binary_expression
+        left: (binary_expression
+          left: (number_literal)
+          right: (number_literal))
+        right: (number_literal)))
+    body: (contract_body)))
+
+================================================================================
+Contract storage at with inheritance before
+================================================================================
+
+contract Example layout at 2**256 - 1 is Base {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    (layout_specifier
+      address: (binary_expression
+        left: (binary_expression
+          left: (number_literal)
+          right: (number_literal))
+        right: (number_literal)))
+    (inheritance_specifier
+      ancestor: (user_defined_type
+        (identifier)))
+    body: (contract_body)))
+
+================================================================================
+Contract storage at with complex expression
+================================================================================
+
+contract Example layout at address(0x1234) + 1 {}
+
+--------------------------------------------------------------------------------
+
+(source_file
+  (contract_declaration
+    name: (identifier)
+    (layout_specifier
+      address: (binary_expression
+        left: (type_cast_expression
+          (primitive_type)
+          (number_literal))
+        right: (number_literal)))
+    body: (contract_body)))

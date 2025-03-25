@@ -13,17 +13,5 @@
   },
   "devDependencies": {
     "tree-sitter-cli": "^0.20.6"
-  },
-  "tree-sitter": [
-    {
-      "scope": "source.sol",
-      "file-types": [
-        "sol"
-      ],
-      "highlights": [
-        "queries/highlights.scm"
-      ],
-      "injection-regex": "^(sol|solidity)$"
-    }
-  ]
+  }
 }

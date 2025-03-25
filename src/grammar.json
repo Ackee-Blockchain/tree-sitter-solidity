@@ -1,4 +1,5 @@
 {
+  "$schema": "https://tree-sitter.github.io/tree-sitter/assets/schemas/grammar.schema.json",
   "name": "solidity",
   "word": "identifier",
   "rules": {
@@ -573,8 +574,51 @@
           "type": "CHOICE",
           "members": [
             {
-              "type": "SYMBOL",
-              "name": "_class_heritage"
+              "type": "CHOICE",
+              "members": [
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "_class_heritage"
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "layout_specifier"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "type": "SEQ",
+                  "members": [
+                    {
+                      "type": "SYMBOL",
+                      "name": "layout_specifier"
+                    },
+                    {
+                      "type": "CHOICE",
+                      "members": [
+                        {
+                          "type": "SYMBOL",
+                          "name": "_class_heritage"
+                        },
+                        {
+                          "type": "BLANK"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
             },
             {
               "type": "BLANK"
@@ -755,6 +799,31 @@
           }
         }
       ]
+    },
+    "layout_specifier": {
+      "type": "PREC",
+      "value": 15,
+      "content": {
+        "type": "SEQ",
+        "members": [
+          {
+            "type": "STRING",
+            "value": "layout"
+          },
+          {
+            "type": "STRING",
+            "value": "at"
+          },
+          {
+            "type": "FIELD",
+            "name": "address",
+            "content": {
+              "type": "SYMBOL",
+              "name": "_expression"
+            }
+          }
+        ]
+      }
     },
     "_class_heritage": {
       "type": "SEQ",
@@ -2542,6 +2611,18 @@
           },
           {
             "type": "STRING",
+            "value": "mcopy"
+          },
+          {
+            "type": "STRING",
+            "value": "tload"
+          },
+          {
+            "type": "STRING",
+            "value": "tstore"
+          },
+          {
+            "type": "STRING",
             "value": "mstore"
           },
           {
@@ -2691,6 +2772,18 @@
           {
             "type": "STRING",
             "value": "blockhash"
+          },
+          {
+            "type": "STRING",
+            "value": "blobhash"
+          },
+          {
+            "type": "STRING",
+            "value": "basefee"
+          },
+          {
+            "type": "STRING",
+            "value": "blobfee"
           },
           {
             "type": "STRING",
@@ -3527,6 +3620,14 @@
               {
                 "type": "SYMBOL",
                 "name": "immutable"
+              },
+              {
+                "type": "FIELD",
+                "name": "location",
+                "content": {
+                  "type": "SYMBOL",
+                  "name": "state_location"
+                }
               }
             ]
           }
@@ -3605,6 +3706,15 @@
         {
           "type": "STRING",
           "value": "payable"
+        }
+      ]
+    },
+    "state_location": {
+      "type": "CHOICE",
+      "members": [
+        {
+          "type": "STRING",
+          "value": "transient"
         }
       ]
     },
@@ -7143,7 +7253,7 @@
               },
               {
                 "type": "PATTERN",
-                "value": "u{[0-9a-fA-F]+}"
+                "value": "u\\{[0-9a-fA-F]+\\}"
               }
             ]
           }
@@ -7431,4 +7541,3 @@
   "inline": [],
   "supertypes": []
 }
-
