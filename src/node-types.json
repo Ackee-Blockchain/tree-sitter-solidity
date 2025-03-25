@@ -1873,6 +1873,10 @@
         {
           "type": "inheritance_specifier",
           "named": true
+        },
+        {
+          "type": "layout_specifier",
+          "named": true
         }
       ]
     }
@@ -2570,6 +2574,10 @@
         "required": true,
         "types": [
           {
+            "type": ";",
+            "named": false
+          },
+          {
             "type": "expression_statement",
             "named": true
           }
@@ -2579,6 +2587,10 @@
         "multiple": false,
         "required": true,
         "types": [
+          {
+            "type": ";",
+            "named": false
+          },
           {
             "type": "expression_statement",
             "named": true
@@ -3262,6 +3274,122 @@
           "named": true
         }
       ]
+    }
+  },
+  {
+    "type": "layout_specifier",
+    "named": true,
+    "fields": {
+      "address": {
+        "multiple": false,
+        "required": true,
+        "types": [
+          {
+            "type": "array_access",
+            "named": true
+          },
+          {
+            "type": "assignment_expression",
+            "named": true
+          },
+          {
+            "type": "augmented_assignment_expression",
+            "named": true
+          },
+          {
+            "type": "binary_expression",
+            "named": true
+          },
+          {
+            "type": "boolean_literal",
+            "named": true
+          },
+          {
+            "type": "call_expression",
+            "named": true
+          },
+          {
+            "type": "hex_string_literal",
+            "named": true
+          },
+          {
+            "type": "identifier",
+            "named": true
+          },
+          {
+            "type": "inline_array_expression",
+            "named": true
+          },
+          {
+            "type": "member_expression",
+            "named": true
+          },
+          {
+            "type": "meta_type_expression",
+            "named": true
+          },
+          {
+            "type": "new_expression",
+            "named": true
+          },
+          {
+            "type": "number_literal",
+            "named": true
+          },
+          {
+            "type": "parenthesized_expression",
+            "named": true
+          },
+          {
+            "type": "payable_conversion_expression",
+            "named": true
+          },
+          {
+            "type": "primitive_type",
+            "named": true
+          },
+          {
+            "type": "slice_access",
+            "named": true
+          },
+          {
+            "type": "string_literal",
+            "named": true
+          },
+          {
+            "type": "struct_expression",
+            "named": true
+          },
+          {
+            "type": "ternary_expression",
+            "named": true
+          },
+          {
+            "type": "tuple_expression",
+            "named": true
+          },
+          {
+            "type": "type_cast_expression",
+            "named": true
+          },
+          {
+            "type": "unary_expression",
+            "named": true
+          },
+          {
+            "type": "unicode_string_literal",
+            "named": true
+          },
+          {
+            "type": "update_expression",
+            "named": true
+          },
+          {
+            "type": "user_defined_type",
+            "named": true
+          }
+        ]
+      }
     }
   },
   {
@@ -4471,6 +4599,7 @@
   {
     "type": "source_file",
     "named": true,
+    "root": true,
     "fields": {},
     "children": {
       "multiple": true,
@@ -4528,6 +4657,11 @@
     }
   },
   {
+    "type": "state_location",
+    "named": true,
+    "fields": {}
+  },
+  {
     "type": "state_mutability",
     "named": true,
     "fields": {}
@@ -4536,6 +4670,16 @@
     "type": "state_variable_declaration",
     "named": true,
     "fields": {
+      "location": {
+        "multiple": true,
+        "required": false,
+        "types": [
+          {
+            "type": "state_location",
+            "named": true
+          }
+        ]
+      },
       "name": {
         "multiple": false,
         "required": true,
@@ -7049,6 +7193,10 @@
     "named": false
   },
   {
+    "type": ";",
+    "named": false
+  },
+  {
     "type": "<",
     "named": false
   },
@@ -7157,7 +7305,23 @@
     "named": false
   },
   {
+    "type": "at",
+    "named": false
+  },
+  {
     "type": "balance",
+    "named": false
+  },
+  {
+    "type": "basefee",
+    "named": false
+  },
+  {
+    "type": "blobfee",
+    "named": false
+  },
+  {
+    "type": "blobhash",
     "named": false
   },
   {
@@ -7701,6 +7865,10 @@
     "named": false
   },
   {
+    "type": "layout",
+    "named": false
+  },
+  {
     "type": "let",
     "named": false
   },
@@ -7734,6 +7902,10 @@
   },
   {
     "type": "mapping",
+    "named": false
+  },
+  {
+    "type": "mcopy",
     "named": false
   },
   {
@@ -7945,11 +8117,23 @@
     "named": false
   },
   {
+    "type": "tload",
+    "named": false
+  },
+  {
+    "type": "transient",
+    "named": false
+  },
+  {
     "type": "true",
     "named": false
   },
   {
     "type": "try",
+    "named": false
+  },
+  {
+    "type": "tstore",
     "named": false
   },
   {
@@ -8090,6 +8274,10 @@
   },
   {
     "type": "uint96",
+    "named": false
+  },
+  {
+    "type": "unchecked",
     "named": false
   },
   {
